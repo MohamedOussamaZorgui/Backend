@@ -10,7 +10,13 @@ const app = express();
 /**
  * Middlewares de base
  */
-app.use(cors()); // Autorise les requêtes cross-origin pour le développement
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+})); // Configuration précise des accès CORS
+
+app.options('*', cors()); // Gérer les requêtes preflight (OPTIONS) pour toutes les routes
 app.use(express.json()); // Permet de lire les fichiers JSON dans le corps des requêtes
 
 // Route de test pour vérifier si l'API fonctionne
