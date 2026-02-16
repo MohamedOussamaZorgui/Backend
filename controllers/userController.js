@@ -37,4 +37,37 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { getUsers, toggleUserStatus, deleteUser };
+// Créer un nouvel utilisateur (Admin uniquement)
+const createUser = async (req, res) => {
+    try {
+        const { fullName, email, password, role_id } = req.body;
+
+        // Vérifier si l'email existe déjà
+        const existingUser = await User.findByEmail(email);
+        if (existingUser) {
+            return res.status(400).json({ message: "Cet email est déjà utilisé." });
+        }
+
+        const userId = await User.createUser({ fullName, email, password, role_id });
+        res.status(201).json({ message: "Utilisateur créé avec succès.", userId });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la création de l'utilisateur." });
+    }
+};
+
+// Modifier un utilisateur (Admin uniquement)
+const updateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { fullName, email, role_id } = req.body;
+
+        await User.updateUser(id, { fullName, email, role_id });
+        res.json({ message: "Utilisateur modifié avec succès." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la modification de l'utilisateur." });
+    }
+};
+
+module.exports = { getUsers, toggleUserStatus, deleteUser, createUser, updateUser };

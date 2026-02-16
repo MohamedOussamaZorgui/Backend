@@ -65,6 +65,29 @@ class User {
     }
 
     /**
+     * Met à jour un utilisateur (Admin uniquement - inclut le rôle)
+     */
+    static async updateUser(id, data) {
+        const { fullName, email, role_id } = data;
+        return await db.execute('UPDATE users SET fullName = ?, email = ?, role_id = ? WHERE id = ?', [fullName, email, role_id, id]);
+    }
+
+    /**
+     * Crée un utilisateur (Admin uniquement)
+     */
+    static async createUser(data) {
+        const { fullName, email, password, role_id } = data;
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+
+        const [result] = await db.execute(
+            'INSERT INTO users (fullName, email, passwordHash, role_id, isActive) VALUES (?, ?, ?, ?, 1)',
+            [fullName, email, passwordHash, role_id]
+        );
+        return result.insertId;
+    }
+
+    /**
      * Change le mot de passe d'un utilisateur
      */
     static async changePassword(id, newPassword) {
