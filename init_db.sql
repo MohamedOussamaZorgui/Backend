@@ -27,3 +27,10 @@ CREATE TABLE IF NOT EXISTS users (
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
+
+-- Insertion des comptes de test (MDP hachés avec Bcrypt)
+-- Admin: admin@medmanager.com / admin123
+-- Patient: patient@test.com / password123
+INSERT IGNORE INTO users (fullName, email, passwordHash, role_id, isActive) VALUES 
+('Admin MedManager', 'admin@medmanager.com', '$2b$10$4mf/WrFFQqGRdivezy56..ZMzu9a7/ogzVVcg0/ih8WCnUJPNCyz.', 1, 1),
+('Jean Patient', 'patient@test.com', '$2b$10$Sm0DpeGqbOTRlYRChhOi5OE6T8bRZ7KJK.aBwVPW/7bzJE8Toycbq', 3, 1);

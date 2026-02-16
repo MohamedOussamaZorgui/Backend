@@ -23,6 +23,15 @@ Le backend est structuré de manière modulaire :
 
 ---
 
+## 🔑 Comptes de Test
+
+| Rôle | Email | Mot de passe |
+| :--- | :--- | :--- |
+| **Administrateur** | `admin@medmanager.com` | `admin123` |
+| **Patient** | `patient@test.com` | `password123` |
+
+---
+
 ## ⚙️ Installation
 
 1. Accédez au dossier :
